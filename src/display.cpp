@@ -207,6 +207,43 @@ void loadFilesFromDirectory(const std::string &directoryPath) {
     }
 }
 
+void displayColumn(RGB ledcolumn[186], int le){     //le here represent which column of the two to latch, for now we are only latching the first one
+    //Setup the controller 
+    initializeController1(ledcolumn);   //准备好数据
+    initializeController2(ledcolumn);
+    initializeController3(ledcolumn);
+    initializeController4(ledcolumn);
+
+    digitalWrite(LE1_PIN, LOW);  // Ensure LE is low before starting data transfer 把上一个列的颜色熄灭
+    digitalWrite(LE2_PIN, LOW); 
+    SPI.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE0));  // 1 MHz, MSB first, SPI mode 0   传输数据
+    for (int i = 0; i < 11; i++) {
+        for (int j=0; j<16; j++){
+            SPI.transfer16(set1[i].pinData[j]);  // Send 16-bit brightness data for each channel
+        }
+        for (int j=0; j<16; j++){
+            SPI.transfer16(set2[i].pinData[j]);  // Send 16-bit brightness data for each channel
+        }
+        for (int j=0; j<16; j++){
+            SPI.transfer16(set3[i].pinData[j]);  // Send 16-bit brightness data for each channel
+        }
+    }
+    for (int j=0; j<16; j++){
+        SPI.transfer16(set1[11].pinData[j]);  // Send 16-bit brightness data for each channel
+    }
+    for (int j=0; j<10; j++){
+        SPI.transfer16(set4.pinData[j]);  // Send 16-bit brightness data for each channel
+    }
+    
+    if (le==1){
+        digitalWrite(LE1_PIN, HIGH);  // Set LE high
+        digitalWrite(LE1_PIN, LOW); 
+    }else{
+        digitalWrite(LE2_PIN, HIGH);  // Set LE high
+        digitalWrite(LE2_PIN, LOW); 
+    }
+}
+
 void displayCurrentFile(RGB* file) {
     if (currentIndex >= 0 && currentIndex < fileList.size()) {
         Serial.print("Displaying file: ");
@@ -222,44 +259,6 @@ void displayCurrentFile(RGB* file) {
     }
 }
 
-void displayColumn(RGB ledcolumn[186], int le){     //le here represent which column of the two to latch, for now we are only latching the first one
-    //Setup the controller 
-    initializeController1(ledcolumn);
-    initializeController2(ledcolumn);
-    initializeController3(ledcolumn);
-    initializeController4(ledcolumn);
-
-    digitalWrite(LE1_PIN, LOW);  // Ensure LE is low before starting data transfer
-    digitalWrite(LE2_PIN, LOW); 
-    SPI.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE0));  // 1 MHz, MSB first, SPI mode 0
-    for (int i = 0; i < 11; i++) {
-        for (int j=0; j<16; j++){
-            SPI.transfer16(set1[i].pinData[j]);  // Send 16-bit brightness data for each channel
-        }
-        for (int j=0; j<16; j++){
-            SPI.transfer16(set2[i].pinData[j]);  // Send 16-bit brightness data for each channel
-        }
-        for (int j=0; j<16; j++){
-            SPI.transfer16(set3[i].pinData[j]);  // Send 16-bit brightness data for each channel
-        }
-    }
-    for (int j=0; j<16; j++){
-        SPI.transfer16(set1[11].pinData[j]);  // Send 16-bit brightness data for each channel
-    }
-    for (int j=0; j<16; j++){
-        SPI.transfer16(set4.pinData[j]);  // Send 16-bit brightness data for each channel
-    }
-    
-    if (le==1){
-        digitalWrite(LE1_PIN, HIGH);  // Set LE high
-        digitalWrite(LE1_PIN, LOW); 
-    }else{
-        digitalWrite(LE2_PIN, HIGH);  // Set LE high
-        digitalWrite(LE2_PIN, LOW); 
-    }
-
-
-}
 
 int loadRGBFile(const char* directory, const char* filename){
     int size=sizeof(directory)+sizeof(filename);
@@ -328,7 +327,7 @@ bool parse_serial_data_and_do_stuff() {
                 if (input_type == 'c') {
                     currentMode = CHARACTERS;
                     Serial.println("Entered Characters mode. Choose 'r' for rotating text or 's' for static text.");
-                    tryDisplayC();
+                    tryDisplayC(); //文字显示function
                 } else if (input_type == 'p') {
                     currentMode = PICTURES;
                     Serial.println("Entered Pictures mode. Use 'n' for next and 'p' for previous.");

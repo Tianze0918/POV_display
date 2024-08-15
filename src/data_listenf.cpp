@@ -81,7 +81,7 @@ void createSubdirectories() {
 
 
 
-void handleWrite(const char* directory, const char* data) {
+void handleWrite(const char* directory, const char* data) {//文字图片存储
     // Determine the next file index
     int fileIndex = 1;
     File root = SPIFFS.open(directory);
@@ -140,7 +140,7 @@ void handleWrite(const char* directory, const char* data) {
 
 
 
-void handleUpload() {
+void handleUpload() {//视频的存储程序
     HTTPUpload& upload = server.upload();
     bool uploadSuccessful = false;
 
