@@ -1,0 +1,17 @@
+Resolving ESP32-S3-DevKitC-1-N8R8 dependencies...
+Platform espressif32 @ 6.7.0 (required: espressif32)
+├── framework-arduinoespressif32 @ 3.20016.0 (required: platformio/framework-arduinoespressif32 @ ~3.20016.0)
+├── framework-espidf @ 3.50201.240515 (required: platformio/framework-espidf @ ~3.50201.0)
+├── tool-cmake @ 3.16.4 (required: platformio/tool-cmake @ ~3.16.0)
+├── tool-esptoolpy @ 1.40501.0 (required: platformio/tool-esptoolpy @ ~1.40501.0)
+├── tool-mkfatfs @ 2.0.1 (required: platformio/tool-mkfatfs @ ~2.0.0)
+├── tool-mklittlefs @ 1.203.210628 (required: platformio/tool-mklittlefs @ ~1.203.0)
+├── tool-mkspiffs @ 2.230.0 (required: platformio/tool-mkspiffs @ ~2.230.0)
+├── tool-ninja @ 1.9.0 (required: platformio/tool-ninja @ ^1.7.0)
+├── toolchain-esp32ulp @ 1.23500.220830 (required: platformio/toolchain-esp32ulp @ ~1.23500.0)
+├── toolchain-riscv32-esp @ 8.4.0+2021r2-patch5 (required: espressif/toolchain-riscv32-esp @ 8.4.0+2021r2-patch5)
+├── toolchain-xtensa-esp-elf @ 13.2.0+20230928 (required: platformio/toolchain-xtensa-esp-elf @ 13.2.0+20230928)
+└── toolchain-xtensa-esp32s3 @ 8.4.0+2021r2-patch5 (required: espressif/toolchain-xtensa-esp32s3 @ 8.4.0+2021r2-patch5)
+
+Libraries
+└── esp32-camera @ 2.0.4 (required: espressif/esp32-camera)
